@@ -1,8 +1,9 @@
-var timeRemaining = document.querySelector('.timer span');
+var pageContentEl = document.querySelector('body');
+var timerEl = document.querySelector('.timer span');
 var wrapperEl = document.querySelector('div.wrapper');
 
-var startScreen = function() {
-    timeRemaining.textContent = '0'
+function startScreen() {
+    timerEl.textContent = '0'
     // Start Div
     var startingDivEl = document.createElement('div');
     startingDivEl.className = 'start-screen';
@@ -25,5 +26,27 @@ var startScreen = function() {
     startingDivEl.appendChild(startBtnEl);
 }
 
-startScreen();
+function countdown() {
+    timeLeft = 75;
+    var timeInterval = setInterval(function() {
+        if (timeLeft > 0) {
+            timerEl.textContent = timeLeft;
+            timeLeft--;
+          }
+        else {
+        timerEl.textContent = "0";
+        clearInterval(timeInterval);
+        }
+    }, 1000);
+}
 
+
+function quiz() {
+    for (var i = 0; i < tasks.length; i++) {
+        
+    }
+}
+
+pageContentEl.addEventListener('click', countdown);
+
+startScreen();
