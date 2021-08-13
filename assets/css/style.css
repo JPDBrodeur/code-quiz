@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+--primary: #351C75;
+--secondary: #C36EEA;
+--grey: #9D9D9D;
+}
+
+body {
+    font-family: Arial;
+    font-size: 120%;
+}
+
+a {
+    text-decoration: none;
+    color: var(--secondary);
+}
+
+.scores, .timer {
+    display: inline;
+}
+
+.timer {
+    float: right;
+}
