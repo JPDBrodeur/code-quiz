@@ -48,3 +48,14 @@ a {
 .purple-btn:hover {
     background-color: var(--secondary);
 }
+
+.wide-btn {
+    width: 200px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.question-screen {
+    width: 50%;
+    margin: 0 auto;
+}
