@@ -75,11 +75,12 @@ function quiz(x) {
     for (var i = 0; i < (questions[x].options.length); i++) {
         var btnWrapEl = document.createElement('div');
         btnWrapEl.className = 'btn-wrap';
+        questionDivEl.appendChild(btnWrapEl);
+
         var optionBtnEl = document.createElement('button');
         optionBtnEl.className = 'purple-btn wide-btn';
         optionBtnEl.textContent = (i + 1) + ". " + questions[x].options[i];
-        optionBtnEl.setAttribute('data-value', questions[x].options[i]);
-        questionDivEl.appendChild(btnWrapEl);
+        optionBtnEl.setAttribute('id', questions[x].options[i]);
         btnWrapEl.appendChild(optionBtnEl);
     }
 
@@ -89,21 +90,23 @@ function quiz(x) {
 
 function selectedAnswer(event) {
     var targetEl = event.target;
-    // edit button was clicked
-    if (targetEl.data-value.matches(answer)) {
-        console.log('Correct!')
-    }
-    // delete button was clicked
-    else {
-        console.log('Wrong!')
-    }
-}
+    var targetValue = targetEl.getAttribute('data-task-id');
 
-
-function advance(x) {
-    if (questions[x]) {
-
+    if (targetEl.id === questions[currentQuestion].a) {
+        console.log('Correct!');
+        
+    } else {
+        console.log('Wrong!');
     }
+
+    var questionScreenEl = document.querySelector('.question-screen')
+        questionScreenEl.remove();
+        if (currentQuestion < (questions.length -1)) {
+            currentQuestion++;
+            quiz(currentQuestion);
+        } else {
+            console.log('final score: ' + timeLeft)
+        }
 }
 
 startScreen();
