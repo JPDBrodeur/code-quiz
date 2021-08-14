@@ -11,7 +11,7 @@
 body {
     font-family: Arial;
     font-size: 120%;
-    padding: 20px;
+    margin: 20px;
 }
 
 a {
@@ -29,6 +29,10 @@ a {
 
 .wrapper {
     margin-top: 80px;
+}
+
+#highscores-wrapper {
+    padding-top: 76px;
 }
 
 .centered-text {
@@ -64,7 +68,7 @@ a {
     padding: 5px 20px;
 }
 
-div.feedback, .question-screen, .end-screen {
+div.feedback, .question-screen, .end-screen, #highscores-wrapper {
     width: 50%;
     margin: 0 auto;
 }
@@ -86,9 +90,22 @@ p.feedback {
     margin-right: 10px;
 }
 
+li.new {
+    background-color: #D9D3E9;
+}
+
+ol.highscores {
+    list-style-position: inside;
+    padding: 0px;
+}
+
+li.highscore {
+    padding: 5px;
+}
+
 /* MEDIA QUERY FOR MOBILE PHONES AND SMALLER */
 @media screen and (max-width: 575px) {
-    div.feedback, .question-screen, .end-screen {
+    div.feedback, .question-screen, .end-screen, #highscores-wrapper {
         width: 100%;
     }
 }

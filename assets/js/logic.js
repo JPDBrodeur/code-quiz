@@ -219,9 +219,8 @@ function saveScore(event) {
     }
 
     // Store initials and score locally
-    localStorage.setItem('Initials', initialsInput)
-    localStorage.setItem('Score', timeLeft)
+    localStorage.setItem('initials', initialsInput)
+    localStorage.setItem('score', timeLeft)
 }
-
 
 startScreen();
