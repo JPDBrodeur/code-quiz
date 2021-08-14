@@ -5,12 +5,13 @@
 :root {
 --primary: #351C75;
 --secondary: #C36EEA;
---grey: #9D9D9D;
+--grey: #9E9E9E;
 }
 
 body {
     font-family: Arial;
     font-size: 120%;
+    padding: 20px;
 }
 
 a {
@@ -24,6 +25,10 @@ a {
 
 .timer {
     float: right;
+}
+
+.wrapper {
+    margin-top: 80px;
 }
 
 .centered-text {
@@ -50,12 +55,40 @@ a {
 }
 
 .wide-btn {
-    width: 200px;
+    width: 250px;
     text-align: left;
     margin-bottom: 10px;
 }
 
-.question-screen {
+.smaller-btn {
+    padding: 5px 20px;
+}
+
+div.feedback, .question-screen, .end-screen {
     width: 50%;
     margin: 0 auto;
+}
+
+p.feedback {
+    font-size: 150%;
+    font-style: italic;
+    color: var(--grey);
+    border-top: 2px solid var(--grey);
+    padding-top: 10px;
+}
+
+.btn-wrap {
+    width: fit-content;
+}
+
+.end-screen input {
+    font-size: 100%;
+    margin-right: 10px;
+}
+
+/* MEDIA QUERY FOR MOBILE PHONES AND SMALLER */
+@media screen and (max-width: 575px) {
+    div.feedback, .question-screen, .end-screen {
+        width: 100%;
+    }
 }

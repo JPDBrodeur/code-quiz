@@ -1,14 +1,15 @@
 var timerEl = document.querySelector('.timer span');
-var wrapperEl = document.querySelector('div.wrapper');
+var mainWrapperEl = document.querySelector('div.wrapper');
 
+// Set global variable for array reference
 var currentQuestion = 0;
 
 function startScreen() {
     timerEl.textContent = '0'
 
-    // Start Screen Div
-    var startScreenEl = document.createElement('div');
-    startScreenEl.className = "start-screen"
+    // Start Wrapper Div
+    var startWrapperEl = document.createElement('div');
+    startWrapperEl.className = "start-screen"
 
     // Quiz Title
     var h1El = document.createElement('h1');
@@ -26,87 +27,180 @@ function startScreen() {
     startBtnEl.textContent = 'Start Quiz';
 
     // Add to screen
-    wrapperEl.appendChild(startScreenEl);
-    startScreenEl.appendChild(h1El);
-    startScreenEl.appendChild(instructionsEl);
-    startScreenEl.appendChild(startBtnEl);
+    mainWrapperEl.appendChild(startWrapperEl);
+    startWrapperEl.appendChild(h1El);
+    startWrapperEl.appendChild(instructionsEl);
+    startWrapperEl.appendChild(startBtnEl);
 
-    startScreenEl.addEventListener('click', start);
+    // Listen for button click
+    startWrapperEl.addEventListener('click', start);
 }
 
-function start() {
-    countdown();
-    var startScreenEl = document.querySelector('.start-screen')
-    startScreenEl.remove();
-    quiz (0);
+function start(event) {
+    // If the button was pressed...
+    if (event.target.type === 'submit') {
+        // Begin countdown
+        countdown();
+        // Remove Start Screen
+        var startWrapperEl = document.querySelector('.start-screen')
+        startWrapperEl.remove();
+        // Begin with the first question
+        quiz (0);
+    }
 }
 
 function countdown() {
     timeLeft = 75;
     var timeInterval = setInterval(function() {
-        if (timeLeft > 0) {
+        var endWrapperEl = document.querySelector('.end-screen')
+        // If the end screen is present, stop the countdown
+        if (endWrapperEl) {
+            clearInterval(timeInterval);
+        }
+        // Countdown by one each second
+        else if (timeLeft > 0) {
             timerEl.textContent = timeLeft;
             timeLeft--;
           }
+        // If timer reaches 0, end game immediately
         else {
-        timerEl.textContent = "0";
-        clearInterval(timeInterval);
+            timerEl.textContent = "0";
+            clearInterval(timeInterval);
+            // Remove the current question screen
+            var questionScreenEl = document.querySelector('.question-screen')
+            if (questionScreenEl) {
+                questionScreenEl.remove();
+            }
+            // Display the end screen
+            endScreen();
         }
     }, 1000);
 }
 
 function quiz(x) {
-    // Question Div
-    var questionDivEl = document.createElement('div');
-    questionDivEl.className = 'question-screen';
-    questionDivEl.setAttribute("data-prompt-number", (x + 1))
+    // Question Wrapper Div
+    var questionWrapperEl = document.createElement('div');
+    questionWrapperEl.className = 'question-screen';
+    questionWrapperEl.setAttribute("data-prompt-number", (x + 1))
 
     // Question Prompt
-    var h2El = document.createElement('h2');
-    h2El.className = 'question-prompt';
-    h2El.textContent = questions[x].q;
+    var h1El = document.createElement('h1');
+    h1El.className = 'question-prompt';
+    h1El.textContent = questions[x].q;
 
-    wrapperEl.appendChild(questionDivEl);
-    questionDivEl.appendChild(h2El);
-
-    var answer = questions[x].a;
+    // Add to screen
+    mainWrapperEl.appendChild(questionWrapperEl);
+    questionWrapperEl.appendChild(h1El);
 
     // Multiple Choice Buttons
     for (var i = 0; i < (questions[x].options.length); i++) {
-        var btnWrapEl = document.createElement('div');
-        btnWrapEl.className = 'btn-wrap';
-        questionDivEl.appendChild(btnWrapEl);
+        // Button Wrapper Divs
+        var optionWrapperEl = document.createElement('div');
+        optionWrapperEl.className = 'btn-wrap';
 
-        var optionBtnEl = document.createElement('button');
-        optionBtnEl.className = 'purple-btn wide-btn';
-        optionBtnEl.textContent = (i + 1) + ". " + questions[x].options[i];
-        optionBtnEl.setAttribute('id', questions[x].options[i]);
-        btnWrapEl.appendChild(optionBtnEl);
+        // Button for each available option
+        var optionEl = document.createElement('button');
+        optionEl.className = 'purple-btn wide-btn';
+        optionEl.textContent = (i + 1) + ". " + questions[x].options[i];
+        optionEl.setAttribute('id', questions[x].options[i]);
+
+        // Add to screen
+        questionWrapperEl.appendChild(optionWrapperEl);
+        optionWrapperEl.appendChild(optionEl);
     }
 
-    var correctEl = document.querySelector(".wide-btn[data-value='" + answer +"']");    
-    questionDivEl.addEventListener('click', selectedAnswer);
+    // Listen for button click
+    questionWrapperEl.addEventListener('click', selectedAnswer);
 }
 
 function selectedAnswer(event) {
     var targetEl = event.target;
-    var targetValue = targetEl.getAttribute('data-task-id');
+    // If a button was pressed... (prevents clicks in the white space from being recognized)
+    if (event.target.type === 'submit') {
+        // If the answer is correct...
+        if (targetEl.id === questions[currentQuestion].a) {
+            feedback('Correct!');
+            
+        } else {
+            feedback('Wrong!');
+            // Ten points deducted from countdown
+            timeLeft = timeLeft - 10;
+        }
 
-    if (targetEl.id === questions[currentQuestion].a) {
-        console.log('Correct!');
-        
-    } else {
-        console.log('Wrong!');
-    }
-
-    var questionScreenEl = document.querySelector('.question-screen')
+        // Remove the current question
+        var questionScreenEl = document.querySelector('.question-screen');
         questionScreenEl.remove();
+
+        // If there is another question in the array...
         if (currentQuestion < (questions.length -1)) {
+            // Reiterate Quiz function and display next question
             currentQuestion++;
             quiz(currentQuestion);
+
         } else {
-            console.log('final score: ' + timeLeft)
+            // Otherwise, end the game
+            endScreen();
         }
+    }
+}
+
+function feedback(text) {
+    // Feedback paragraph
+    var feedbackEl = document.createElement('p');
+    feedbackEl.className = 'feedback';
+    feedbackEl.textContent = text;
+
+    // Add to screen
+    var feedbackDivEl = document.querySelector('.feedback')
+    feedbackDivEl.appendChild(feedbackEl);
+
+    // Remove feedback after 1 second
+    setTimeout(function() {
+        feedbackEl.remove();
+    }, 1000);
+}
+
+function endScreen() {
+        // End Screen Div
+        var endWrapperEl = document.createElement('div');
+        endWrapperEl.className = "end-screen"
+    
+        // End Screen Title
+        var h1El = document.createElement('h1');
+        h1El.textContent = 'All done!';
+    
+        // Final Score
+        var scoreEl = document.createElement('p');
+        scoreEl.textContent = 'Your final score is ' + timeLeft + '.';
+        
+        // Input to enter initials
+        var initialsInputEl = document.createElement('input');
+        initialsInputEl.name = 'initials:';
+        initialsInputEl.type = 'text';
+
+        // Label for input
+        var inputLabelEl = document.createElement('label');
+        inputLabelEl.for = 'initials:';
+        inputLabelEl.textContent = 'Enter Initials: ';
+
+        // Submit Button
+        var submitBtnEl = document.createElement('button');
+        submitBtnEl.className = 'purple-btn smaller-btn';
+        submitBtnEl.textContent = 'Submit';
+    
+        // Add to screen
+        mainWrapperEl.appendChild(endWrapperEl);
+        endWrapperEl.appendChild(h1El);
+        endWrapperEl.appendChild(scoreEl);
+        endWrapperEl.appendChild(inputLabelEl);
+        endWrapperEl.appendChild(initialsInputEl);
+        endWrapperEl.appendChild(submitBtnEl);
+    
+        endWrapperEl.addEventListener('click', store);
+}
+
+function store() {
+
 }
 
 startScreen();
