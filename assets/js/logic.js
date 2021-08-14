@@ -172,15 +172,24 @@ function endScreen() {
         // Final Score
         var scoreEl = document.createElement('p');
         scoreEl.textContent = 'Your final score is ' + timeLeft + '.';
+        // Make sure the TimerEl displays the same number
+        timerEl.textContent = timeLeft;
         
+        // Form to capture initials
+        var formEl = document.createElement('form');
+        formEl.id = 'initials-form';
+        formEl.action = 'highscores.html'
+
         // Input to enter initials
         var initialsInputEl = document.createElement('input');
-        initialsInputEl.name = 'initials:';
+        initialsInputEl.name = 'initials';
         initialsInputEl.type = 'text';
+        initialsInputEl.maxLength = '3';
+        initialsInputEl.minLength = '1';
 
         // Label for input
         var inputLabelEl = document.createElement('label');
-        inputLabelEl.for = 'initials:';
+        inputLabelEl.for = 'initials';
         inputLabelEl.textContent = 'Enter Initials: ';
 
         // Submit Button
@@ -192,15 +201,27 @@ function endScreen() {
         mainWrapperEl.appendChild(endWrapperEl);
         endWrapperEl.appendChild(h1El);
         endWrapperEl.appendChild(scoreEl);
-        endWrapperEl.appendChild(inputLabelEl);
-        endWrapperEl.appendChild(initialsInputEl);
-        endWrapperEl.appendChild(submitBtnEl);
+        endWrapperEl.appendChild(formEl);
+        formEl.appendChild(inputLabelEl);
+        formEl.appendChild(initialsInputEl);
+        formEl.appendChild(submitBtnEl);
     
-        endWrapperEl.addEventListener('click', store);
+        endWrapperEl.addEventListener('submit', saveScore);
 }
 
-function store() {
+function saveScore(event) {
+    var initialsInput = document.querySelector("input[name='initials']").value;
 
+    // Display alert if no intials are provided upon submit
+    if (!initialsInput) {
+        alert("Please enter initials to submit your final score.")
+        return false;
+    }
+
+    // Store initials and score locally
+    localStorage.setItem('Initials', initialsInput)
+    localStorage.setItem('Score', timeLeft)
 }
+
 
 startScreen();
