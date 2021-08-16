@@ -19,15 +19,15 @@ a {
     color: var(--secondary);
 }
 
-.scores, .timer {
+#scores, #timer {
     display: inline;
 }
 
-.timer {
+#timer {
     float: right;
 }
 
-.wrapper {
+#wrapper {
     margin-top: 80px;
 }
 
@@ -68,7 +68,7 @@ a {
     padding: 5px 20px;
 }
 
-div.feedback, .question-screen, .end-screen, #highscores-wrapper {
+#feedback, .question-screen, .end-screen, #highscores-wrapper {
     width: 50%;
     margin: 0 auto;
 }
@@ -90,11 +90,13 @@ p.feedback {
     margin-right: 10px;
 }
 
+/* Highlight recently added score */
 li.new {
     background-color: #D9D3E9;
 }
 
 ol.highscores {
+    /* Display numerals inside the li element */
     list-style-position: inside;
     padding: 0px;
 }

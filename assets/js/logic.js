@@ -1,5 +1,5 @@
-var timerEl = document.querySelector('.timer span');
-var mainWrapperEl = document.querySelector('div.wrapper');
+var timerEl = document.querySelector('#timer span');
+var mainWrapperEl = document.querySelector('#wrapper');
 
 // Set global variable for array reference
 var currentQuestion = 0;
@@ -151,7 +151,7 @@ function feedback(text) {
     feedbackEl.textContent = text;
 
     // Add to screen
-    var feedbackDivEl = document.querySelector('.feedback')
+    var feedbackDivEl = document.querySelector('#feedback')
     feedbackDivEl.appendChild(feedbackEl);
 
     // Remove feedback after 1 second
